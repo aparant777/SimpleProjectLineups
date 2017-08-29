@@ -11,7 +11,6 @@ public class Zombie : MonoBehaviour {
     private Node targetNode;
 
     void Start() {
-
         /*get the path length and set the starting index as 0*/
         pathLength = path.Length;
         currrentNodeNumber = 0;      
@@ -45,5 +44,14 @@ public class Zombie : MonoBehaviour {
 
     private bool CheckDistance() {
         return Vector3.Distance(transform.position, targetNode.transform.position) < path.Radius;
+    }
+
+
+    public void Setpath(GameObject ipath) {
+        if (ipath != null) {
+            path = ipath.GetComponent<Path>();
+        } else {
+            Debug.LogError("Path is null");
+        }
     }
 }
