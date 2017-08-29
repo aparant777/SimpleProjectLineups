@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Zombie : MonoBehaviour {
 
@@ -45,7 +44,6 @@ public class Zombie : MonoBehaviour {
     private bool CheckDistance() {
         return Vector3.Distance(transform.position, targetNode.transform.position) < path.Radius;
     }
-
 
     public void Setpath(GameObject ipath) {
         if (ipath != null) {
