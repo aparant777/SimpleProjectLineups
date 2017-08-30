@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Path : MonoBehaviour {
 
-    public bool isDebugging = true;
+    public bool isDebugging = true;     //THIS IS ONLY FOR EDITOR
     public float Radius = 2.0f;
 
     public Node[] nodes;
 
     public float Length { get { return nodes.Length; } }
 
-    public Node GetNode(int nodeNumber) {
-        return nodes[nodeNumber];
-    }
+    public Node GetNode(int nodeNumber) { return nodes[nodeNumber]; }
 
     /*Debugging only*/
     void OnDrawGizmos() {

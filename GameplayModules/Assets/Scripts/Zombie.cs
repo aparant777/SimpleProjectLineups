@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿/* Purpose: Minion logic and respective functionality
+   Attached to: NULL*/
+
+using UnityEngine;
 
 public class Zombie : MonoBehaviour {
 
     public Path path;
     public float minionSpeed;
-
     private float pathLength;
     private int currrentNodeNumber;
     private Node targetNode;
@@ -51,5 +53,5 @@ public class Zombie : MonoBehaviour {
         } else {
             Debug.LogError("Path is null");
         }
-    }
+    }   
 }
