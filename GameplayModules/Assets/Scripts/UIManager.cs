@@ -17,11 +17,7 @@ public class UIManager : MonoBehaviour {
     private Button button_SpawnRate;
     private Button button_Quit;
 
-    private Toggle ui_toggle_nodes;
-    private Toggle ui_toggle;
-
-    private GameObject canvas_event_panel;
-
+    private Toggle ui_toggle_nodes;  
     private void OnEnable() {
         EventManager.MinionSpawnedMethods += UpdateTotalMinionsUI;
         EventManager.MinionSpawnedMethods += UpdateEventLog_Spawned;
@@ -47,8 +43,6 @@ public class UIManager : MonoBehaviour {
         #region REFERENCES
         manager = GameObject.Find("Manager").GetComponent<Manager>();
 
-        canvas_event_panel = GameObject.Find("Panel-Event Data");
-
         text_totalNumberOfMinions = GameObject.Find("Text-Total Number of Minions").GetComponent<Text>();
         text_totalNumberOfMinions_value = GameObject.Find("Text-Total Number of Minion-Value").GetComponent<Text>();
         text_eventScrollData = GameObject.Find("Content-Eventdata").GetComponent<Text>();
@@ -59,24 +53,18 @@ public class UIManager : MonoBehaviour {
         button_SpawnRate = GameObject.Find("Button-Spawn Rate").GetComponent<Button>();
 
         ui_toggle_nodes = GameObject.Find("Toggle-ShowNodes").GetComponent<Toggle>();
-        ui_toggle = GameObject.Find("Toggle-ControlPanel").GetComponent<Toggle>();
         #endregion REFERENCES
 
         #region LISTENERS
         button_Quit.onClick.AddListener(() => OnClick_Quit());
         button_SpawnRate.onClick.AddListener(() => SetSpawnRate());
         ui_toggle_nodes.onValueChanged.AddListener((bool value) => ToggleNodes(ui_toggle_nodes.isOn));
-        ui_toggle.onValueChanged.AddListener((bool value) => ToggleUI(ui_toggle.isOn));
         #endregion LISTENERS
 
     }
 
     public void ToggleNodes(bool isVisible) {
         manager.SetNodeVisibility(isVisible);
-    }
-
-    public void ToggleUI(bool isVisible) {
-        canvas_event_panel.SetActive(isVisible);
     }
 
     public void SetSpawnRate() {
