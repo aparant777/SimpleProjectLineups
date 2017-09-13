@@ -16,6 +16,7 @@ public class Zombie : MonoBehaviour {
     public UIManager ui;
     public Image ui_image_healthBar;
     public Text ui_text_health;
+    public GameObject ps_blood;
 
     #region MINION_STATS
         public float total_healthPool;
@@ -95,7 +96,11 @@ public class Zombie : MonoBehaviour {
             else {
                 total_healthPool = Mathf.Clamp(total_healthPool + total_abilityArmor - damageValue, 0, total_healthPool);
             }
-            EventManager.Event_MinionTakingDamage();
+            //EventManager.Event_MinionTakingDamage();
+        }
+
+        if(total_healthPool <= 0) {
+            SetMinionDead(true);
         }
     }
 
@@ -109,9 +114,15 @@ public class Zombie : MonoBehaviour {
 
     public void SetMinionDead(bool iIsDead) {
         is_dead = iIsDead;
+        BIs_Dead();
     }
 
-    public bool BIs_Dead() { return is_dead;  }
+    public bool BIs_Dead() {
+        ps_blood.SetActive(true);   //activate particle system
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        Invoke("DestroyZombie", 1.2f);
+        return is_dead;
+    }
 
     public void Healing() {
         total_healthPool = Mathf.Clamp(total_healthPool + healthRegeneration, 0, currenthealthPool);
@@ -120,5 +131,9 @@ public class Zombie : MonoBehaviour {
     public void UpdateUI() {
         ui_image_healthBar.fillAmount = total_healthPool / 1000f;
         ui_text_health.text = total_healthPool.ToString();
+    }
+
+    public void DestroyZombie() {
+        Destroy(gameObject);
     }
 }

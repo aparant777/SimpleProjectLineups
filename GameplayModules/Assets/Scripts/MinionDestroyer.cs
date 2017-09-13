@@ -6,7 +6,7 @@
 public class MinionDestroyer : MonoBehaviour {
     private void OnTriggerEnter(Collider iMinion) {
         if (iMinion.gameObject.tag == "Player") {
-            Destroy(iMinion.gameObject);
+            iMinion.GetComponent<Zombie>().SetMinionDead(true);
             EventManager.Event_MinionDestroyed();           
         }
     }
