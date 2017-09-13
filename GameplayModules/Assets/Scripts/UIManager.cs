@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour {
         EventManager.MinionDestroyedMethods += UpdateEventLog_Destroyed;
 
         EventManager.MinionInPathMethods += UpdateEventLog_InPath;
+
+        EventManager.MinionDestroyedMethods += UpdateEventLog_Takingdamage;
     }
 
     private void OnDisable() {
@@ -36,6 +38,8 @@ public class UIManager : MonoBehaviour {
         EventManager.MinionDestroyedMethods -= UpdateEventLog_Destroyed;
 
         EventManager.MinionInPathMethods -= UpdateEventLog_InPath;
+
+        EventManager.MinionDestroyedMethods -= UpdateEventLog_Takingdamage;
     }
 
     private void Start() {
@@ -89,6 +93,11 @@ public class UIManager : MonoBehaviour {
     public void UpdateEventLog_InPath() {
         string temp = text_eventScrollData.text;
         text_eventScrollData.text = temp + System.Environment.NewLine + "minion in path";
+    }
+
+    public void UpdateEventLog_Takingdamage() {
+        string temp = text_eventScrollData.text;
+        text_eventScrollData.text = temp + System.Environment.NewLine + "minion taking damage";
     }
 
     private void OnClick_Quit() {
