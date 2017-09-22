@@ -25,6 +25,7 @@ public class Zombie : MonoBehaviour {
         public float healthRegeneration;
         public bool is_dead;
         public float currenthealthPool;
+        public bool isMinionPlayerControlled;
     #endregion MINION_STATS
 
     void Start() {
@@ -32,12 +33,12 @@ public class Zombie : MonoBehaviour {
         pathLength = path.Length;
         currrentNodeNumber = 0;
 
-        total_healthPool = 1000.0f;
+        total_healthPool = CONSTANTS.total_healthPool;
         currenthealthPool = total_healthPool;
         ui_text_health.text = total_healthPool.ToString();
 
-        total_basicArmor = 5.0f;
-        total_abilityArmor = 5.0f;
+        total_basicArmor = CONSTANTS.total_basicArmor;
+        total_abilityArmor = CONSTANTS.total_abilityArmor;
       
         ui_image_healthBar.fillAmount = currenthealthPool / total_healthPool;
 
@@ -69,7 +70,7 @@ public class Zombie : MonoBehaviour {
     }
 
     private void MoveMinion() {
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetNode.transform.position, 0.1f * minionSpeed);        
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetNode.transform.position, minionSpeed * Time.deltaTime);        
     }
 
     private bool CheckDistance() {
@@ -90,13 +91,14 @@ public class Zombie : MonoBehaviour {
         if (total_healthPool <= 0) {
             SetMinionDead(true);
         } else {
-            if (damageType == 0) {
-                total_healthPool = Mathf.Clamp(total_healthPool + total_basicArmor - damageValue, 0, total_healthPool);       
+            if (Run_Unit_Test_3(total_basicArmor, total_abilityArmor)) {
+                if (damageType == 0) {
+                    total_healthPool = Mathf.Clamp(total_healthPool + total_basicArmor - damageValue, 0, total_healthPool);
+                }
+                else {
+                    total_healthPool = Mathf.Clamp(total_healthPool + total_abilityArmor - damageValue, 0, total_healthPool);
+                }
             }
-            else {
-                total_healthPool = Mathf.Clamp(total_healthPool + total_abilityArmor - damageValue, 0, total_healthPool);
-            }
-            //EventManager.Event_MinionTakingDamage();
         }
 
         if(total_healthPool <= 0) {
@@ -105,7 +107,7 @@ public class Zombie : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
-        //check if 'other' is a prjectile
+        //check if 'other' is a projectile
         if (other.gameObject.tag == "projectile") {
             //apply the damage to minion from projectile
             TakeDamage(other.gameObject.GetComponent<Projectile>().damagePerShot, Random.Range(0,2));
@@ -125,7 +127,9 @@ public class Zombie : MonoBehaviour {
     }
 
     public void Healing() {
-        total_healthPool = Mathf.Clamp(total_healthPool + healthRegeneration, 0, currenthealthPool);
+        if (Run_Unit_Test_2()) {
+            total_healthPool = Mathf.Clamp(total_healthPool + healthRegeneration, 0, currenthealthPool);
+        }
     }
 
     public void UpdateUI() {
@@ -135,5 +139,39 @@ public class Zombie : MonoBehaviour {
 
     public void DestroyZombie() {
         Destroy(gameObject);
+    }
+
+    public bool IsMinionHumanControlled() {
+        return isMinionPlayerControlled;
+    }
+
+    bool Run_Unit_Test_2() {
+        Debug.Log("Testing Unit Test #2");
+
+        if (CONSTANTS.total_healthPool < 0) {
+            Debug.Log("Unit_Test_2 failed");
+            ui.Display_Unit_Test_2_Result("Unit_Test_2 failed");
+            return false;
+        }
+        else {
+            Debug.Log("Unit_Test_2 passed");
+            ui.Display_Unit_Test_2_Result("Unit_Test_2 passed");
+            return true;
+        }
+    }
+
+    bool Run_Unit_Test_3(float testVariable1, float testVariable2) {
+        Debug.Log("Testing Unit Test #3");
+        if (testVariable1 <= 0 && 
+            testVariable2 <= 0) {
+            Debug.Log("Unit_Test_3 failed");
+            ui.Display_Unit_Test_3_Result("Unit_Test_3 failed");
+            return false;
+        }
+        else {
+            Debug.Log("Unit_Test_3 passed");
+            ui.Display_Unit_Test_3_Result("Unit_Test_3 passed");
+            return true;
+        }
     }
 }

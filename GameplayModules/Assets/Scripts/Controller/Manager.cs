@@ -15,15 +15,10 @@ public class Manager : MonoBehaviour {
     [HideInInspector]
     public int number_of_minions;
 
-    private void OnEnable() {
-        EventManager.MinionSpawnedMethods += IncrementMinionCount;
-        EventManager.MinionDestroyedMethods += DecrementMinionCount;
-    }
+    public bool is_Unit_Test_1_passed_;
+    public bool is_Unit_Test_2_passed_;
+    public bool is_Unit_Test_3_passed_;
 
-    private void OnDisable() {
-        EventManager.MinionSpawnedMethods -= IncrementMinionCount;
-        EventManager.MinionDestroyedMethods -= DecrementMinionCount;
-    }
 
     void Start() {
         nodes = GameObject.FindGameObjectsWithTag("node");

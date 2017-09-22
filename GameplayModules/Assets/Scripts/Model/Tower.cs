@@ -9,9 +9,18 @@ public class Tower : MonoBehaviour {
 
     public int TowerType;   //AOE or Projectile based
 
+    private void Start() {
+        /*************************** WORK IN PROGRESS***************************/
+        /* The tower's in the game will have a consistent lifeline, and will die, 
+         * after that, the AI will again spawn Tower's at in new positions*/
+
+        /* Destroy(gameObject, CONSTANTS.tower_Lifetime);*/
+
+        /*************************** WORK IN PROGRESS***************************/
+    }
 
     /*For PROJECTILE based*/
-   private void OnTriggerEnter(Collider other) {
+    private void OnTriggerEnter(Collider other) {
         if (other.gameObject.tag == "Player") {
             if (TowerType == 1) {
                 Vector3 triggeredPosition = other.gameObject.transform.position;
