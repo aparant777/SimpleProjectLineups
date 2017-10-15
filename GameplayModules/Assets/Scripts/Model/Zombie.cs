@@ -3,6 +3,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class Zombie : MonoBehaviour {
 
@@ -18,8 +19,11 @@ public class Zombie : MonoBehaviour {
     public Text ui_text_health;
     public GameObject ps_blood;
 
+    public GameObject destination;
+    public NavMeshAgent navmesh;
+
     #region MINION_STATS
-        public float total_healthPool;
+    public float total_healthPool;
         public float total_basicArmor;
         public float total_abilityArmor;
         public float healthRegeneration;
@@ -30,7 +34,7 @@ public class Zombie : MonoBehaviour {
 
     void Start() {
         /*get the path length and set the starting index as 0*/
-        pathLength = path.Length;
+        //pathLength = path.Length;
         currrentNodeNumber = 0;
 
         total_healthPool = CONSTANTS.total_healthPool;
@@ -43,29 +47,33 @@ public class Zombie : MonoBehaviour {
         ui_image_healthBar.fillAmount = currenthealthPool / total_healthPool;
 
         ui = GameObject.FindGameObjectWithTag("UI").GetComponent<UIManager>();
+        navmesh = gameObject.GetComponent<NavMeshAgent>();
     }
 
     void Update() {
 
+
+
+        navmesh.SetDestination(destination.transform.position);
         /*get the node from Path array*/
-        targetNode = path.GetNode(currrentNodeNumber);
-        
-        /*Check the minimum distance between minion and node*/
-        if (CheckDistance()) {
-            /*go to the next node, but check if the node does not increment more than path length*/
-            if (currrentNodeNumber < pathLength - 1)
-                currrentNodeNumber++;
-            else
-                return;
-        }
+        //targetNode = path.GetNode(currrentNodeNumber);
 
-        if (currrentNodeNumber >= pathLength) {
-            Debug.LogError("Current Node Number exceeded the array length");
-            return;
-        }
+        ///*Check the minimum distance between minion and node*/
+        //if (CheckDistance()) {
+        //    /*go to the next node, but check if the node does not increment more than path length*/
+        //    if (currrentNodeNumber < pathLength - 1)
+        //        currrentNodeNumber++;
+        //    else
+        //        return;
+        //}
 
-        MoveMinion();
-        Healing();
+        //if (currrentNodeNumber >= pathLength) {
+        //    Debug.LogError("Current Node Number exceeded the array length");
+        //    return;
+        //}
+
+        //MoveMinion();
+        //Healing();
         UpdateUI();
     }
 

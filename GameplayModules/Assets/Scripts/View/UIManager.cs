@@ -28,6 +28,9 @@ public class UIManager : MonoBehaviour {
 
     private GameObject panel_GameOver;
 
+    public Text ui_text_money_owned;
+    public Text ui_text_money_owned_value;
+
     //private void OnEnable() {
     //    EventManager.MinionSpawnedMethods += UpdateTotalMinionsUI;
     //    EventManager.MinionSpawnedMethods += UpdateEventLog_Spawned;
@@ -57,12 +60,12 @@ public class UIManager : MonoBehaviour {
         #region REFERENCES
         manager = GameObject.Find("Manager").GetComponent<Manager>();
 
-        minionSpawner = GameObject.Find("Minion Spawner").GetComponent<MinionSpawner>();
+        //minionSpawner = GameObject.Find("Minion Spawner").GetComponent<MinionSpawner>();
 
         text_totalNumberOfMinions = GameObject.Find("Text-Total Number of Minions").GetComponent<Text>();
         text_totalNumberOfMinions_value = GameObject.Find("Text-Total Number of Minion-Value").GetComponent<Text>();
         text_eventScrollData = GameObject.Find("Content-Eventdata").GetComponent<Text>();
-        text_AIBaseHealth_value = GameObject.Find("Text_AIBaseHealth_Value").GetComponent<Text>();
+        //text_AIBaseHealth_value = GameObject.Find("Text_AIBaseHealth_Value").GetComponent<Text>();
         text_test_result_1 = GameObject.Find("Text-test11").GetComponent<Text>();
         text_test_result_2 = GameObject.Find("Text-test22").GetComponent<Text>();
         text_test_result_3 = GameObject.Find("Text-test33").GetComponent<Text>();
@@ -77,13 +80,17 @@ public class UIManager : MonoBehaviour {
         ui_toggle_controlledSpawning = GameObject.Find("Toggle-Is Controlled Spawn").GetComponent<Toggle>();
 
         panel_GameOver = GameObject.Find("Panel-GameOver");
+
+
+        ui_text_money_owned = GameObject.Find("Text-Total Money").GetComponent<Text>();
+        ui_text_money_owned_value = GameObject.Find("Text-Total Money Value").GetComponent<Text>();
         #endregion REFERENCES
 
         #region LISTENERS
-        button_Quit.onClick.AddListener(() => OnClick_Quit());
-        button_SpawnRate.onClick.AddListener(() => SetSpawnRate());
-        ui_toggle_nodes.onValueChanged.AddListener((bool value) => ToggleNodes(ui_toggle_controlledSpawning.isOn));
-        ui_toggle_controlledSpawning.onValueChanged.AddListener((bool value) => ToggleRandomSpawngin(ui_toggle_nodes.isOn));
+        //button_Quit.onClick.AddListener(() => OnClick_Quit());
+        //button_SpawnRate.onClick.AddListener(() => SetSpawnRate());
+        //ui_toggle_nodes.onValueChanged.AddListener((bool value) => ToggleNodes(ui_toggle_controlledSpawning.isOn));
+        //ui_toggle_controlledSpawning.onValueChanged.AddListener((bool value) => ToggleRandomSpawngin(ui_toggle_nodes.isOn));
         #endregion LISTENERS
 
         panel_GameOver.SetActive(false);
