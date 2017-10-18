@@ -21,6 +21,7 @@ public class Zombie : MonoBehaviour {
 
     public GameObject destination;
     public NavMeshAgent navmesh;
+    public Manager manager;
 
     #region MINION_STATS
     public float total_healthPool;
@@ -48,13 +49,17 @@ public class Zombie : MonoBehaviour {
 
         ui = GameObject.FindGameObjectWithTag("UI").GetComponent<UIManager>();
         navmesh = gameObject.GetComponent<NavMeshAgent>();
+        manager = GameObject.Find("Manager").GetComponent<Manager>();
     }
 
     void Update() {
 
 
+        if (manager.hasGameStarted) {
 
-        navmesh.SetDestination(destination.transform.position);
+            navmesh.SetDestination(destination.transform.position);
+            UpdateUI();
+        }
         /*get the node from Path array*/
         //targetNode = path.GetNode(currrentNodeNumber);
 
@@ -74,7 +79,7 @@ public class Zombie : MonoBehaviour {
 
         //MoveMinion();
         //Healing();
-        UpdateUI();
+       
     }
 
     private void MoveMinion() {

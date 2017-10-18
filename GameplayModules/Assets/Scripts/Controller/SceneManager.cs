@@ -24,11 +24,6 @@ public class SceneManager : MonoBehaviour {
         fadedPanel.SetActive(false);
     }
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void Quit() {
         FadePanel();
         Invoke("InvokedChaged_Quit", 1.5f);

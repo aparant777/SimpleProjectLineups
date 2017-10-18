@@ -11,6 +11,6 @@ public class TowerController : MonoBehaviour {
         float horizontalValue = Input.GetAxis("Horizontal");
         float frontalvalue = Input.GetAxis("Vertical");
 
-        temp.transform.position = temp.transform.position + new Vector3(horizontalValue * Time.deltaTime * towerSpeed, 0, frontalvalue * Time.deltaTime * towerSpeed); 
+        //temp.transform.position = temp.transform.position + new Vector3(horizontalValue * Time.deltaTime * towerSpeed, 0, frontalvalue * Time.deltaTime * towerSpeed); 
 	}
 }

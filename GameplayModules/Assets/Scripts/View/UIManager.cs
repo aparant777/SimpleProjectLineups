@@ -14,22 +14,33 @@ public class UIManager : MonoBehaviour {
     private Text text_eventScrollData;
     private Text text_AIbaseHealth;
     private Text text_AIBaseHealth_value;
-    public Text text_test_result_1;
-    public Text text_test_result_2;
-    public Text text_test_result_3;
+    //public Text text_test_result_1;
+    //public Text text_test_result_2;
+    //public Text text_test_result_3;
 
     private InputField inputfield_SpawnRate;
 
     private Button button_SpawnRate;
     private Button button_Quit;
+    private Button button_TutorialReady;
+    private Button button_PauseGame;
+    private Button button_ResumeGame;
+    private Button button_ReplayGame;
+    private Button button_BackToMainMenu;
 
     private Toggle ui_toggle_nodes;
     private Toggle ui_toggle_controlledSpawning;
 
+    private GameObject panel_Tutorial;
     private GameObject panel_GameOver;
+    private GameObject panel_PauseMenu;
 
     public Text ui_text_money_owned;
     public Text ui_text_money_owned_value;
+
+    public Text ui_text_total_time_value;
+
+    public float time;
 
     //private void OnEnable() {
     //    EventManager.MinionSpawnedMethods += UpdateTotalMinionsUI;
@@ -66,24 +77,33 @@ public class UIManager : MonoBehaviour {
         text_totalNumberOfMinions_value = GameObject.Find("Text-Total Number of Minion-Value").GetComponent<Text>();
         text_eventScrollData = GameObject.Find("Content-Eventdata").GetComponent<Text>();
         //text_AIBaseHealth_value = GameObject.Find("Text_AIBaseHealth_Value").GetComponent<Text>();
-        text_test_result_1 = GameObject.Find("Text-test11").GetComponent<Text>();
-        text_test_result_2 = GameObject.Find("Text-test22").GetComponent<Text>();
-        text_test_result_3 = GameObject.Find("Text-test33").GetComponent<Text>();
+        //text_test_result_1 = GameObject.Find("Text-test11").GetComponent<Text>();
+        //text_test_result_2 = GameObject.Find("Text-test22").GetComponent<Text>();
+        //text_test_result_3 = GameObject.Find("Text-test33").GetComponent<Text>();
 
         inputfield_SpawnRate = GameObject.Find("InputField-Spawn Rate").GetComponent<InputField>();
 
         button_Quit = GameObject.Find("Button-Quit").GetComponent<Button>();
         button_SpawnRate = GameObject.Find("Button-Spawn Rate").GetComponent<Button>();
+        button_TutorialReady = GameObject.Find("Button-StartGame").GetComponent<Button>();
+        button_ReplayGame = GameObject.Find("Button-ReplayGame").GetComponent<Button>();
+        button_BackToMainMenu = GameObject.Find("Button-MainMenu").GetComponent<Button>();
 
         ui_toggle_nodes = GameObject.Find("Toggle-ShowNodes").GetComponent<Toggle>();
 
         ui_toggle_controlledSpawning = GameObject.Find("Toggle-Is Controlled Spawn").GetComponent<Toggle>();
 
+        panel_Tutorial = GameObject.Find("Panel-Tutorial");
         panel_GameOver = GameObject.Find("Panel-GameOver");
-
+        panel_PauseMenu = GameObject.Find("Panel-Pause");
 
         ui_text_money_owned = GameObject.Find("Text-Total Money").GetComponent<Text>();
         ui_text_money_owned_value = GameObject.Find("Text-Total Money Value").GetComponent<Text>();
+        ui_text_total_time_value = GameObject.Find("Text-Total Time Value").GetComponent<Text>();
+
+        button_PauseGame = GameObject.Find("Button-Pause").GetComponent<Button>();
+        button_ResumeGame = GameObject.Find("Button-Resume").GetComponent<Button>();
+
         #endregion REFERENCES
 
         #region LISTENERS
@@ -91,9 +111,45 @@ public class UIManager : MonoBehaviour {
         //button_SpawnRate.onClick.AddListener(() => SetSpawnRate());
         //ui_toggle_nodes.onValueChanged.AddListener((bool value) => ToggleNodes(ui_toggle_controlledSpawning.isOn));
         //ui_toggle_controlledSpawning.onValueChanged.AddListener((bool value) => ToggleRandomSpawngin(ui_toggle_nodes.isOn));
+
+        button_TutorialReady.onClick.AddListener(() => TutorialDone());
+        button_PauseGame.onClick.AddListener(() => PauseGame());
+        button_ResumeGame.onClick.AddListener(() => ResumeGame());
+        button_ReplayGame.onClick.AddListener(() => manager.SceneChange_ReplayLevel());
+        button_BackToMainMenu.onClick.AddListener(() => manager.SceneChange_MainMenu());
+
         #endregion LISTENERS
 
         panel_GameOver.SetActive(false);
+        panel_Tutorial.SetActive(true);
+        panel_PauseMenu.SetActive(false);
+    }
+
+    private void Update() {
+        if (manager.hasGameStarted) {
+            RunTimer();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            PauseGame();
+        }
+    }
+
+    public void RunTimer() {
+        time += Time.deltaTime;
+
+        var minutes = time / 60; //Divide the guiTime by sixty to get the minutes.
+        var seconds = time % 60;//Use the euclidean division for the seconds.
+        var fraction = (time * 100) % 100;
+
+        ui_text_total_time_value.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+
+        ui_text_money_owned_value.text = manager.totalMoney.ToString();
+    }
+
+    public void TutorialDone() {
+        manager.hasGameStarted = true;
+        panel_Tutorial.SetActive(false);
     }
 
     public void ToggleNodes(bool isVisible) {
@@ -137,7 +193,7 @@ public class UIManager : MonoBehaviour {
     public void UpdateAIBaseHealth_value(float iValue) {
         Debug.Log(iValue);
         if(iValue == 0) {
-            Enable_panel_GameOver();
+            //Enable_panel_GameOver();
             Debug.Log("ok! done");
         }
         text_AIBaseHealth_value.text = iValue.ToString();
@@ -152,14 +208,24 @@ public class UIManager : MonoBehaviour {
     }
 
     public void Display_Unit_Test_1_Result(string iResult) {
-        text_test_result_1.text = iResult;
+       // text_test_result_1.text = iResult;
     }
 
     public void Display_Unit_Test_2_Result(string iResult) {
-        text_test_result_2.text = iResult;
+        //text_test_result_2.text = iResult;
     }
 
     public void Display_Unit_Test_3_Result(string iResult) {
-        text_test_result_3.text = iResult;
+        //text_test_result_3.text = iResult;
+    }
+
+    public void PauseGame() {
+        Time.timeScale = 0f;
+        panel_PauseMenu.SetActive(true);
+    }
+
+    public void ResumeGame() {
+        Time.timeScale = 1f;
+        panel_PauseMenu.SetActive(false);
     }
 }
