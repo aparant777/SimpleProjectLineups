@@ -36,7 +36,7 @@ public class SceneManager : MonoBehaviour {
         button_Options.onClick.AddListener(() => LoadOptions());
 		button_BackToMainMenu.onClick.AddListener (() => BackToMainMenu ());
 		button_LoadSavedGamesPanel.onClick.AddListener (() => OpenLoadGamesPlanel ());
-
+		button_LoadSavedGame1.onClick.AddListener (() => LoadSavedGame ());
         fadedPanel.SetActive(false);
 		panel_LoadGames.SetActive (false);
     }
@@ -48,6 +48,7 @@ public class SceneManager : MonoBehaviour {
 
     public void LoadGame() {
         FadePanel();
+		PlayerPrefs.SetString ("wasGameSaved", "no");
         Invoke("InvokedChaged_Game", 1.5f);
     }
 
@@ -78,5 +79,10 @@ public class SceneManager : MonoBehaviour {
 
 	public void BackToMainMenu(){	
 		panel_LoadGames.SetActive (false);
+	}
+
+	public void LoadSavedGame(){
+		PlayerPrefs.SetString ("wasGameSaved", "yes");
+		InvokedChaged_Game ();
 	}
 }

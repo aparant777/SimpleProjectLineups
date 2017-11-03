@@ -22,6 +22,7 @@ public class Zombie : MonoBehaviour {
     public GameObject destination;
     public NavMeshAgent navmesh;
     public Manager manager;
+	public string wasGameSaved;
 
     #region MINION_STATS
     public float total_healthPool;
@@ -37,8 +38,25 @@ public class Zombie : MonoBehaviour {
         /*get the path length and set the starting index as 0*/
         //pathLength = path.Length;
         currrentNodeNumber = 0;
+		//----------------------------------------------------------------------
+		wasGameSaved = PlayerPrefs.GetString("wasGameSaved");
 
-        total_healthPool = CONSTANTS.total_healthPool;
+		if (wasGameSaved == "no") {
+			total_healthPool = CONSTANTS.total_healthPool;
+		} else {
+			//get total health as last one
+			total_healthPool = PlayerPrefs.GetFloat ("PlayerHealth");
+
+			//get the last postiion
+			Vector3 zombiePosition = new Vector3(
+				PlayerPrefs.GetFloat ("PlayerPosition.x"),
+				PlayerPrefs.GetFloat ("PlayerPosition.y"),
+				PlayerPrefs.GetFloat ("PlayerPosition.z"));
+
+			gameObject.transform.position = zombiePosition;
+		}
+		//----------------------------------------------------------------------
+
         currenthealthPool = total_healthPool;
         ui_text_health.text = total_healthPool.ToString();
 

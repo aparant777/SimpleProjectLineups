@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour {
     private Button button_ResumeGame;
     private Button button_ReplayGame;
     private Button button_BackToMainMenu;
+	public Button button_QuitGame;
+	public Button button_SaveGame;
 
     private Toggle ui_toggle_nodes;
     private Toggle ui_toggle_controlledSpawning;
@@ -41,6 +43,7 @@ public class UIManager : MonoBehaviour {
     public Text ui_text_total_time_value;
 
     public float time;
+	public SaveManager saveManager;
 
     //private void OnEnable() {
     //    EventManager.MinionSpawnedMethods += UpdateTotalMinionsUI;
@@ -88,6 +91,7 @@ public class UIManager : MonoBehaviour {
         button_TutorialReady = GameObject.Find("Button-StartGame").GetComponent<Button>();
         button_ReplayGame = GameObject.Find("Button-ReplayGame").GetComponent<Button>();
         button_BackToMainMenu = GameObject.Find("Button-MainMenu").GetComponent<Button>();
+		button_QuitGame = GameObject.Find("Button-ExitGame").GetComponent<Button>();
 
         ui_toggle_nodes = GameObject.Find("Toggle-ShowNodes").GetComponent<Toggle>();
 
@@ -103,6 +107,9 @@ public class UIManager : MonoBehaviour {
 
         button_PauseGame = GameObject.Find("Button-Pause").GetComponent<Button>();
         button_ResumeGame = GameObject.Find("Button-Resume").GetComponent<Button>();
+		button_SaveGame = GameObject.Find("Button-SaveGame").GetComponent<Button>();
+
+		saveManager = GameObject.Find("_Scene").GetComponent<SaveManager>();
 
         #endregion REFERENCES
 
@@ -117,6 +124,8 @@ public class UIManager : MonoBehaviour {
         button_ResumeGame.onClick.AddListener(() => ResumeGame());
         button_ReplayGame.onClick.AddListener(() => manager.SceneChange_ReplayLevel());
         button_BackToMainMenu.onClick.AddListener(() => manager.SceneChange_MainMenu());
+		button_QuitGame.onClick.AddListener(() => OnClick_Quit());
+		button_SaveGame.onClick.AddListener(() => Perform_Save());
 
         #endregion LISTENERS
 
@@ -228,4 +237,8 @@ public class UIManager : MonoBehaviour {
         Time.timeScale = 1f;
         panel_PauseMenu.SetActive(false);
     }
+
+	public void Perform_Save(){
+		saveManager.Perform_Save ();
+	}
 }
