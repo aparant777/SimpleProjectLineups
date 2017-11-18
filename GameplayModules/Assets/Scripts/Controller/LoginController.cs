@@ -70,9 +70,9 @@ public class LoginController : MonoBehaviour {
 		StartCoroutine( PostRequest(urlAddress,newData));
 	}
 
-	IEnumerator PostRequest(string url, string bodyJsonString) {
+	IEnumerator PostRequest(string url, string jsonString) {
 		var request = new UnityWebRequest(url, "POST");
-		byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(bodyJsonString);
+		byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(jsonString);
 		request.uploadHandler = (UploadHandler) new UploadHandlerRaw(bodyRaw);
 		request.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
 		request.SetRequestHeader("Content-Type", "application/json");
